@@ -1,23 +1,33 @@
 import type { Component } from 'solid-js';
 import { createSignal } from 'solid-js';
+import { useNavigate } from '@solidjs/router';
 
-import { registerUser } from '../api/user';
+import { useUserContext } from '../contexts/UserContext';
+
 import Input from '../components/Input';
 import Button from '../components/Button';
 
-const Register: Component = () => {
+const SignUp: Component = () => {
   const [name, setName] = createSignal('');
   const [email, setEmail] = createSignal('');
   const [password, setPassword] = createSignal('');
+  const navigate = useNavigate();
+  const { signUp } = useUserContext();
 
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    const data = {
-      name: name(),
-      email: email(),
-      password: password(),
-    };
-    await registerUser(data);
+    try {
+      e.preventDefault();
+      const data = {
+        name: name(),
+        email: email(),
+        password: password(),
+      };
+      await signUp(data);
+      navigate('/', { replace: true });
+    } catch (error) {
+      console.log(error);
+      // TODO: error handling
+    }
   };
 
   return (
@@ -70,4 +80,4 @@ const Register: Component = () => {
   );
 };
 
-export default Register;
+export default SignUp;

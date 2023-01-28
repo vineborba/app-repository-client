@@ -1,13 +1,14 @@
-import { useRoutes } from '@solidjs/router';
+import type { RouteDefinition } from '@solidjs/router';
 import type { Component } from 'solid-js';
+import { useRoutes } from '@solidjs/router';
 import { lazy } from 'solid-js';
 
 import NavBar from './components/NavBar';
 
-const routes = [
+const routes: RouteDefinition[] = [
   { path: '/', component: lazy(() => import('./pages/Home')) },
-  { path: '/register', component: lazy(() => import('./pages/Register')) },
-  { path: '/:projectId', component: lazy(() => import('./pages/Project')) },
+  { path: '/sign-up', component: lazy(() => import('./pages/SignUp')) },
+  { path: '/project/:projectId', component: lazy(() => import('./pages/Project')) },
 ];
 
 const App: Component = () => {

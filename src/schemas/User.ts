@@ -1,3 +1,8 @@
+export interface User {
+  name: string;
+  favoriteProjects: string[];
+}
+
 export interface RegisterUser {
   name: string;
   email: string;
@@ -7,4 +12,8 @@ export interface RegisterUser {
 export interface LoginData {
   email: string;
   password: string;
+}
+
+export interface AuthResponse {
+  token: string;
 }

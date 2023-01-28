@@ -1,16 +1,18 @@
-import type { Component } from 'solid-js';
-import { A } from '@solidjs/router';
+import { Component, Show } from 'solid-js';
+import { A, useNavigate } from '@solidjs/router';
+
+import { useUserContext } from '../contexts/UserContext';
 
 import Button from './Button';
 
 const NavBar: Component = () => {
-  // const router = useRouter();
-  // const { data: session } = useSession();
+  const { user, signOut } = useUserContext();
+  const navigate = useNavigate();
 
-  // const logOut = useCallback(async () => {
-  //   await signOut();
-  //   router.replace('/');
-  // }, [router]);
+  const signOutAction = () => {
+    signOut();
+    navigate('/', { replace: true });
+  };
 
   return (
     <header class="py-2 px-4 2xl:px-40 bg-emerald-400 shadow-md">
@@ -22,9 +24,11 @@ const NavBar: Component = () => {
           open app distribution system
         </A>
 
-        {/* {!!session && ( */}
-        <Button class="w-fit px-2" /* onClick={logOut} */>Logout</Button>
-        {/* )} */}
+        <Show when={user()}>
+          <Button class="w-fit px-2" onClick={signOutAction}>
+            Logout
+          </Button>
+        </Show>
       </div>
     </header>
   );

@@ -3,6 +3,8 @@ import { For } from 'solid-js';
 import { RiLogosAndroidFill, RiLogosAppleFill } from 'solid-icons/ri';
 import { A } from '@solidjs/router';
 
+import HomeImage from '../assets/images/home.webp';
+
 interface ProjectCardProps {
   name: string;
   description?: string;
@@ -19,14 +21,14 @@ const platformsRep: Record<string, JSX.Element> = {
 
 const ProjectCard: Component<ProjectCardProps> = (props: ProjectCardProps) => {
   return (
-    <A href={`/projects/${props.projectId}`}>
+    <A href={`/project/${props.projectId}`}>
       <article
         class={`flex border-slate-300 border rounded-lg hover:cursor-pointer pr-4 h-32 ${props.class}`}
       >
         <img
           width={128}
           height={128}
-          src={props.image || '/assets/svgs/logo.svg'}
+          src={props.image || HomeImage}
           alt="Imagem do projeto"
           class="rounded-l-lg"
           classList={{

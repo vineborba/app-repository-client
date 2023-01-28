@@ -1,7 +1,8 @@
-import { Component, Show } from 'solid-js';
-import { For, mergeProps } from 'solid-js';
+import type { Component } from 'solid-js';
+import { For, mergeProps, Show } from 'solid-js';
 
 import type { Project } from '../schemas/Project';
+
 import ProjectCard from '../components/ProjectCard';
 
 interface ProjectsListProps {
@@ -24,7 +25,9 @@ const ListEmptyState: Component<{ favorites: boolean }> = (props) => (
   </Show>
 );
 
-const ProjectsList: Component = (_props: ProjectsListProps) => {
+const ProjectsList: Component<ProjectsListProps> = (
+  _props: ProjectsListProps,
+) => {
   const props = mergeProps({ favorites: false }, _props);
 
   return (
@@ -45,7 +48,7 @@ const ProjectsList: Component = (_props: ProjectsListProps) => {
               <ProjectCard
                 name={p.name}
                 description={p.description}
-                projectId={p.id}
+                projectId={p._id.$oid}
                 platforms={p.platforms}
                 image={p.image}
               />
