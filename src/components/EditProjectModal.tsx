@@ -15,15 +15,19 @@ import Button from './Button';
 import Input from './Input';
 import Checkbox from './Checkbox';
 import { ArtifactTypesOptions } from '../schemas/Artifact';
+import { Project } from '../schemas/Project';
 
 interface EditProjectModalProps {
   projectId: string;
   initialDescription: string;
   initialName: string;
   initialPlatforms: string[];
+  refetchProject: () => Project | Promise<Project>;
 }
 
-const EditProjectModal: Component<EditProjectModalProps> = (props: EditProjectModalProps) => {
+const EditProjectModal: Component<EditProjectModalProps> = (
+  props: EditProjectModalProps,
+) => {
   const [visible, setVisible] = createSignal(false);
   const [platforms, setPlatforms] = createSignal<string[]>([]);
   const [name, setName] = createSignal('');
@@ -50,6 +54,7 @@ const EditProjectModal: Component<EditProjectModalProps> = (props: EditProjectMo
       description: description(),
     };
     await updateProject(props.projectId, data);
+    await props.refetchProject();
     resetState();
   };
 

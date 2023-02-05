@@ -8,7 +8,10 @@ import NavBar from './components/NavBar';
 const routes: RouteDefinition[] = [
   { path: '/', component: lazy(() => import('./pages/Home')) },
   { path: '/sign-up', component: lazy(() => import('./pages/SignUp')) },
-  { path: '/project/:projectId', component: lazy(() => import('./pages/Project')) },
+  {
+    path: '/project/:projectId',
+    component: lazy(() => import('./pages/Project')),
+  },
 ];
 
 const App: Component = () => {

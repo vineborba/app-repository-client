@@ -13,7 +13,7 @@ export interface Artifact {
   }[];
 }
 
-export const ArtifactTypesOptions =  [
+export const ArtifactTypesOptions = [
   { label: 'Android', value: 'android' },
   { label: 'iOS', value: 'ios' },
-]
+];

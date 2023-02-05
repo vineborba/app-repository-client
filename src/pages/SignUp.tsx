@@ -1,16 +1,19 @@
-import type { Component } from 'solid-js';
-import { createSignal } from 'solid-js';
+import { createSignal, Component } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
 
 import { useUserContext } from '../contexts/UserContext';
 
 import Input from '../components/Input';
 import Button from '../components/Button';
+import GenericError from '../components/GenericError';
 
 const SignUp: Component = () => {
   const [name, setName] = createSignal('');
   const [email, setEmail] = createSignal('');
   const [password, setPassword] = createSignal('');
+  const [emailError, setEmailError] = createSignal('');
+  const [genericError, setGenericError] = createSignal(false);
+
   const navigate = useNavigate();
   const { signUp } = useUserContext();
 
@@ -25,9 +28,17 @@ const SignUp: Component = () => {
       await signUp(data);
       navigate('/', { replace: true });
     } catch (error) {
-      console.log(error);
-      // TODO: error handling
+      if (error.data === 'User already registered') {
+        setEmailError('E-mail already registered.');
+      } else {
+        setGenericError(true);
+      }
     }
+  };
+
+  const handleOnChangeEmail = (e: OnChangeInputEvent) => {
+    if (emailError()) setEmailError('');
+    setEmail(e.currentTarget.value);
   };
 
   return (
@@ -54,9 +65,10 @@ const SignUp: Component = () => {
           value={email()}
           maxLength={50}
           required
+          error={emailError()}
           placeholder="Login"
           class="mb-4"
-          onChange={(e) => setEmail(e.currentTarget.value)}
+          onChange={handleOnChangeEmail}
         />
         <Input
           type="text"
@@ -69,13 +81,22 @@ const SignUp: Component = () => {
           onChange={(e) => setPassword(e.currentTarget.value)}
         />
       </form>
-      <Button
-        form="register-form"
-        class="mt-8"
-        disabled={!name() || !email() || !password()}
-      >
-        Submit
-      </Button>
+      <GenericError visible={genericError()} />
+      <div class="mt-8">
+        <Button
+          class="mr-3"
+          buttonType="secondary"
+          onClick={() => navigate('/', { replace: true })}
+        >
+          Go back
+        </Button>
+        <Button
+          form="register-form"
+          disabled={!name() || !email() || !password()}
+        >
+          Submit
+        </Button>
+      </div>
     </section>
   );
 };

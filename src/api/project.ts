@@ -31,6 +31,9 @@ export const deleteProject = async (projectId: string) => {
 };
 
 export const updateProject = async (projectId: string, body: BaseProject) => {
-  const { data } = await apiClient.post(`/projects/${projectId}`, body);
+  const { data } = await apiClient.patch<Project>(
+    `/projects/${projectId}`,
+    body,
+  );
   return data;
 };

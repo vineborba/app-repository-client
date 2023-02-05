@@ -1,5 +1,4 @@
-import { Component, createEffect } from 'solid-js';
-import { createSignal, Show } from 'solid-js';
+import { createSignal, createResource, Component, Show } from 'solid-js';
 import { A } from '@solidjs/router';
 
 import HomeImage from '../assets/images/home.webp';
@@ -14,24 +13,41 @@ import Button from '../components/Button';
 import CreateProjectModal from '../components/CreateProjectModal';
 import Input from '../components/Input';
 import ProjectsList from '../components/ProjectsList';
+import GenericError from '../components/GenericError';
 
 const LoggedOutHome: Component = () => {
   const [email, setEmail] = createSignal('');
   const [password, setPassword] = createSignal('');
+  const [loginError, setLoginError] = createSignal('');
+  const [genericError, setGenericError] = createSignal(false);
   const { signIn } = useUserContext();
 
   const handleLoginFormSubmit = async (e: FormEvent) => {
     try {
       e.preventDefault();
+      if (genericError) setGenericError(false);
       const data = {
         email: email(),
         password: password(),
       };
       await signIn(data);
     } catch (error) {
-      console.log(error);
-      // TODO: error handling
+      if (error.data === 'Invalid credentials') {
+        setLoginError('Invalid user or password.');
+      } else {
+        setGenericError(true);
+      }
     }
+  };
+
+  const handleOnChangeEmail = (e: OnChangeInputEvent) => {
+    if (loginError()) setLoginError('');
+    setEmail(e.currentTarget.value);
+  };
+
+  const handleOnChangePassword = (e: OnChangeInputEvent) => {
+    if (loginError()) setLoginError('');
+    setPassword(e.currentTarget.value);
   };
 
   return (
@@ -53,9 +69,10 @@ const LoggedOutHome: Component = () => {
           value={email()}
           maxLength={50}
           required
+          error={loginError()}
           placeholder="E-mail"
           class="mb-4"
-          onChange={(e) => setEmail(e.currentTarget.value)}
+          onChange={handleOnChangeEmail}
         />
         <Input
           type="password"
@@ -64,16 +81,18 @@ const LoggedOutHome: Component = () => {
           value={password()}
           maxLength={50}
           required
+          error={loginError()}
           placeholder="Password"
-          onChange={(e) => setPassword(e.currentTarget.value)}
+          onChange={handleOnChangePassword}
         />
       </form>
+      <GenericError visible={genericError()} />
       <Button type="submit" form="login-form">
         Sign In
       </Button>
       <p class="mt-4">
         Doesn't have an account yet?&nbsp;
-        <A href="/sign-up" class="font-bold text-blue-400">
+        <A href="/sign-up" class="font-bold text-green-400">
           Create one!
         </A>
       </p>
@@ -83,14 +102,9 @@ const LoggedOutHome: Component = () => {
 
 const Home: Component = () => {
   const { user } = useUserContext();
-  const [projects, setProjects] = createSignal<Project[]>([]);
 
-  createEffect(() => {
-    if (user()) {
-      fetchProjects().then((res) => setProjects(res));
-    } else {
-      setProjects([]);
-    }
+  const [projects, { refetch }] = createResource(fetchProjects, {
+    initialValue: [],
   });
 
   const filterFavoriteProjects = (project: Project) =>
@@ -103,7 +117,7 @@ const Home: Component = () => {
           <p class="text-lg">
             Olá, <span class="text-emerald-400 ">{user().name}</span>
           </p>
-          <CreateProjectModal />
+          <CreateProjectModal refetchProjects={refetch} />
           <ProjectsList
             favorites
             projects={projects().filter(filterFavoriteProjects)}

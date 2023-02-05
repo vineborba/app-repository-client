@@ -9,14 +9,11 @@ interface FavoriteButtonProps {
 const FavoriteButton: Component<FavoriteButtonProps> = (
   props: FavoriteButtonProps,
 ) => {
-  const toggleFavorite = () => {
-    props.toggleFavorite();
-  };
-
   return (
     <button
       class="rounded-full shadow-xl p-3 h-12 w-12"
-      onClick={toggleFavorite}
+      // eslint-disable-next-line solid/reactivity
+      onClick={props.toggleFavorite}
     >
       <Show
         when={props.favorite}

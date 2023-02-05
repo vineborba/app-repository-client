@@ -11,13 +11,19 @@ import {
 import { RiSystemAddLine } from 'solid-icons/ri';
 
 import { createProject } from '../api/project';
+
 import { ArtifactTypesOptions } from '../schemas/Artifact';
+import { Project } from '../schemas/Project';
+
 import Button from './Button';
 import Input from './Input';
 import Checkbox from './Checkbox';
 
+interface CreateProjectModalProps {
+  refetchProjects: () => Project[] | Promise<Project[]>;
+}
 
-const CreateProjectModal: Component = () => {
+const CreateProjectModal: Component<CreateProjectModalProps> = (props) => {
   const [visible, setVisible] = createSignal(false);
   const [platforms, setPlatforms] = createSignal(['ios', 'android']);
   const [name, setName] = createSignal('');
@@ -38,7 +44,8 @@ const CreateProjectModal: Component = () => {
       description: description(),
     };
     await createProject(data);
-    // TODO? talvez precise de um refetch na lista de projetos
+    await props.refetchProjects();
+    resetState();
   };
 
   const handleCheckboxChange = (type: string) => {

@@ -6,6 +6,8 @@ import { RiSystemArrowLeftLine } from 'solid-icons/ri';
 
 import type { Project } from '../schemas/Project';
 
+import { useUserContext } from '../contexts/UserContext';
+
 import Checkbox from '../components/Checkbox';
 import { fetchProjectData } from '../api/project';
 import FavoriteButton from '../components/FavoriteButton';
@@ -22,19 +24,23 @@ interface PageParams extends Params {
 const ProjectDetails: Component = () => {
   const params = useParams<PageParams>();
   const navigate = useNavigate();
+  const { user, updateFavoriteProjects } = useUserContext();
 
   const [types, setTypes] = createSignal(['ios', 'android']);
   const [isDownloading, setIsDownloading] = createSignal(false);
-
-  const [project] = createResource<Project, string>(
-    () => params.projectId,
-    fetchProjectData,
+  const [isFavorite, setIsFavorite] = createSignal(
+    user().favoriteProjects.includes(params.projectId),
   );
 
-  const isFavorite = Math.random() > 0.4;
+  const [project, { refetch }] = createResource<Project, string>(
+    () => params.projectId,
+    fetchProjectData,
+    { initialValue: {} as Project },
+  );
 
   const toggleFavorite = async () => {
-    //TODO
+    await updateFavoriteProjects(params.projectId);
+    setIsFavorite((prev) => !prev);
   };
 
   const handleCheckboxClick = (type: string) => {
@@ -60,11 +66,11 @@ const ProjectDetails: Component = () => {
             image={project().image}
             projectId={project()._id.$oid}
           />
-          <h1 class="text-4xl capitalize max-w-md">
+          <h1 class="text-4xl max-w-md">
             {project().name || 'Nome do projeto'}
           </h1>
           <FavoriteButton
-            favorite={isFavorite}
+            favorite={isFavorite()}
             toggleFavorite={toggleFavorite}
           />
           <EditProjectModal
@@ -72,6 +78,7 @@ const ProjectDetails: Component = () => {
             initialDescription={project().description}
             initialPlatforms={project().platforms}
             initialName={project().name}
+            refetchProject={refetch}
           />
           <DeleteProjectModal
             projectId={project()._id.$oid}

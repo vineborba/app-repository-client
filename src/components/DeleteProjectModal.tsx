@@ -78,9 +78,7 @@ const DeleteProjectModal: Component<DeleteProjectModalProps> = (
                 leaveTo="opacity-0 scale-95"
               >
                 <DialogPanel class="max-w-lg transform overflow-hidden bg-white rounded-2xl w-170 p-6 flex flex-col justify-center">
-                  <DialogTitle class="text-xl mb-2">
-                    Delete Project
-                  </DialogTitle>
+                  <DialogTitle class="text-xl mb-2">Delete Project</DialogTitle>
                   <DialogDescription class="font-bold">
                     By deleting this project, all it's data and build artifacts
                     will be deleted indefinetly!

@@ -8,13 +8,20 @@ import {
 } from 'solid-js';
 
 import { LoginData, RegisterUser, User } from '../schemas/User';
-import { fetchUserData, login, registerUser } from '../api/user';
+
+import {
+  fetchUserData,
+  login,
+  registerUser,
+  updateFavoriteProject,
+} from '../api/user';
 
 interface IUserContext {
   user: Accessor<User>;
   signIn: (data: LoginData) => Promise<void>;
   signUp: (data: RegisterUser) => Promise<void>;
   signOut: () => void;
+  updateFavoriteProjects: (projectId: string) => Promise<void>;
 }
 
 export const UserContext = createContext<IUserContext>({
@@ -25,7 +32,10 @@ export const UserContext = createContext<IUserContext>({
   signUp: async () => {
     return;
   },
-  signOut: async () => {
+  signOut: () => {
+    return;
+  },
+  updateFavoriteProjects: async () => {
     return;
   },
 });
@@ -69,8 +79,16 @@ export const UserProvider: Component<{ children: JSX.Element }> = (props) => {
     setUser(null);
   };
 
+  const updateFavoriteProjects = async (projectId: string) => {
+    await updateFavoriteProject(projectId);
+    const userData = await fetchUserData();
+    setUser(userData);
+  };
+
   return (
-    <UserContext.Provider value={{ user, signIn, signUp, signOut }}>
+    <UserContext.Provider
+      value={{ user, signIn, signUp, signOut, updateFavoriteProjects }}
+    >
       {props.children}
     </UserContext.Provider>
   );

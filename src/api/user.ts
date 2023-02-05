@@ -1,4 +1,9 @@
-import type { LoginData, AuthResponse, RegisterUser, User } from '../schemas/User';
+import type {
+  LoginData,
+  AuthResponse,
+  RegisterUser,
+  User,
+} from '../schemas/User';
 
 import apiClient from './client';
 
@@ -19,4 +24,14 @@ export const fetchUserData = async () => {
 export const login = async (body: LoginData) => {
   const { data } = await apiClient.post<AuthResponse>('/users/login', body);
   return data;
+};
+
+export const updateFavoriteProject = async (projectId: string) => {
+  await apiClient.patch(
+    '/users/favorite-projects',
+    { projectId },
+    {
+      headers: { Authorization: getToken() },
+    },
+  );
 };

@@ -4,3 +4,8 @@ type FormEvent = Event & {
   currentTarget: HTMLFormElement;
   target: Element;
 };
+
+type OnChangeInputEvent = Event & {
+  currentTarget: HTMLInputElement;
+  target: Element;
+};

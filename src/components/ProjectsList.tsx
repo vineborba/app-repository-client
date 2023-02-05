@@ -20,7 +20,7 @@ const ListEmptyState: Component<{ favorites: boolean }> = (props) => (
     }
   >
     <span class="text-zinc-600">
-      When you favoritee a project, it will show here! 🤩
+      When you favorite a project, it will show here! 🤩
     </span>
   </Show>
 );
