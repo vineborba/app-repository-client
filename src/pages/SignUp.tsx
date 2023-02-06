@@ -6,6 +6,7 @@ import { useUserContext } from '../contexts/UserContext';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import GenericError from '../components/GenericError';
+import NavButton from '../components/NavButton';
 
 const SignUp: Component = () => {
   const [name, setName] = createSignal('');
@@ -83,13 +84,9 @@ const SignUp: Component = () => {
       </form>
       <GenericError visible={genericError()} />
       <div class="mt-8">
-        <Button
-          class="mr-3"
-          buttonType="secondary"
-          onClick={() => navigate('/', { replace: true })}
-        >
-          Go back
-        </Button>
+        <NavButton class="mr-3" buttonType="secondary" href="/">
+          Go Back
+        </NavButton>
         <Button
           form="register-form"
           disabled={!name() || !email() || !password()}

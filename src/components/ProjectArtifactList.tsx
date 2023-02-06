@@ -25,7 +25,7 @@ const ProjectArtifactList: Component<ProjectArtifactListProps> = (
         <p class="text-2xl text-emerald-400">Loading...</p>
       </Match>
       <Match when={artifacts().length === 0}>
-        <p class="text-2xl text-emerald-400">Nada para mostrar aqui! 😲</p>
+        <p class="text-2xl text-emerald-400">Nothing to show here! 😲</p>
       </Match>
       <Match when={artifacts().length}>
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-5 gap-y-3">

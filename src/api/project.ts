@@ -37,3 +37,11 @@ export const updateProject = async (projectId: string, body: BaseProject) => {
   );
   return data;
 };
+
+export const updateProjectImage = async (projectId: string, body: FormData) => {
+  await apiClient.patch(`/projects/${projectId}/image`, body);
+};
+
+export const removeProjectImage = async (projectId: string) => {
+  await apiClient.delete(`/projects/${projectId}/image`);
+};

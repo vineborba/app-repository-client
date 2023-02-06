@@ -13,7 +13,7 @@ const DownloadArtifactButton: Component<DownloadArtifactButtonProps> = (
   const downloadArtifact = async () => {
     try {
       props.setIsDownloading(true);
-      // TODO? tem forma melhor pra fazer isso?
+      // TODO? is there a better way? 🤔
       const url = `/artifacts/${props.artifactId}/download`;
       const response = await fetch(url);
       const blob = await response.blob();

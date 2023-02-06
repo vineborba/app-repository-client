@@ -1,7 +1,7 @@
 import type { Component } from 'solid-js';
 import { For, Show, createResource, createSignal } from 'solid-js';
-import type { Params } from '@solidjs/router';
-import { useNavigate, useParams } from '@solidjs/router';
+import { A, Params } from '@solidjs/router';
+import { useParams } from '@solidjs/router';
 import { RiSystemArrowLeftLine } from 'solid-icons/ri';
 
 import type { Project } from '../schemas/Project';
@@ -23,7 +23,6 @@ interface PageParams extends Params {
 
 const ProjectDetails: Component = () => {
   const params = useParams<PageParams>();
-  const navigate = useNavigate();
   const { user, updateFavoriteProjects } = useUserContext();
 
   const [types, setTypes] = createSignal(['ios', 'android']);
@@ -53,18 +52,16 @@ const ProjectDetails: Component = () => {
 
   return (
     <section class="w-full max-w-screen-2xl mx-auto">
-      <button
-        class="flex items-center -mt-8 mb-8"
-        onClick={() => navigate('/', { replace: true })}
-      >
+      <A class="flex items-center mb-4" href="/">
         <RiSystemArrowLeftLine size={24} class="fill-emerald-600" />
         <span class="ml-2 uppercase text-emerald-600">go back</span>
-      </button>
+      </A>
       <Show when={!project.loading}>
         <div class="flex gap-5">
           <ProjectImage
             image={project().image}
             projectId={project()._id.$oid}
+            refetchProject={refetch}
           />
           <h1 class="text-4xl max-w-md">
             {project().name || 'Nome do projeto'}

@@ -4,6 +4,7 @@ import { useRoutes } from '@solidjs/router';
 import { lazy } from 'solid-js';
 
 import NavBar from './components/NavBar';
+import Footer from './components/Footer';
 
 const routes: RouteDefinition[] = [
   { path: '/', component: lazy(() => import('./pages/Home')) },
@@ -19,9 +20,10 @@ const App: Component = () => {
   return (
     <>
       <NavBar />
-      <main class="flex flex-col h-full shadow-2xl py-12 px-4 2xl:px-40 md:py-24">
+      <main class="flex flex-col flex-grow h-full shadow-2xl py-8 px-4 2xl:px-40">
         <Routes />
       </main>
+      <Footer />
     </>
   );
 };
