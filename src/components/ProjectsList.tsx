@@ -14,9 +14,7 @@ const ListEmptyState: Component<{ favorites: boolean }> = (props) => (
   <Show
     when={props.favorites}
     fallback={
-      <span class="text-zinc-600">
-        'Nothing to show here at the moment! 😅'
-      </span>
+      <span class="text-zinc-600">Nothing to show here at the moment! 😅</span>
     }
   >
     <span class="text-zinc-600">

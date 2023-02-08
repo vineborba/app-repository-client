@@ -105,9 +105,9 @@ const EditProjectModal: Component<EditProjectModalProps> = (
                 leaveTo="opacity-0 scale-95"
               >
                 <DialogPanel class="max-w-lg transform overflow-hidden bg-white rounded-2xl w-170 p-6 flex flex-col justify-center">
-                  <DialogTitle class="text-xl mb-2">Editar Projeto</DialogTitle>
+                  <DialogTitle class="text-xl mb-2">Edit Project</DialogTitle>
                   <DialogDescription>
-                    Edite os dados desejados do projeto
+                    Edit the desired project data
                   </DialogDescription>
                   <form
                     class="flex flex-col gap-4 my-2"
@@ -115,29 +115,29 @@ const EditProjectModal: Component<EditProjectModalProps> = (
                   >
                     <Input
                       type="text"
-                      label="Nome do projeto"
+                      label="Project name"
                       name="name"
                       value={name()}
                       maxLength={50}
                       required
-                      placeholder="Nome do projeto"
+                      placeholder="Project name"
                       onChange={(e) => setName(e.currentTarget.value)}
                     />
                     <Input
                       type="text"
-                      label="Descrição do projeto"
+                      label="Project description"
                       name="description"
                       value={description()}
                       maxLength={120}
                       required
-                      placeholder="Descrição do projeto"
+                      placeholder="Project description"
                       onChange={(e) => setDescription(e.currentTarget.value)}
                     />
                     <fieldset
                       class="flex gap-2 mb-4 items-center"
                       name="platforms"
                     >
-                      <legend class="my-2">Plataformas disponíveis:</legend>
+                      <legend class="my-2">Available platforms:</legend>
                       <For each={ArtifactTypesOptions}>
                         {(type) => (
                           <Checkbox
@@ -157,7 +157,7 @@ const EditProjectModal: Component<EditProjectModalProps> = (
                         buttonType="secondary"
                         onClick={resetState}
                       >
-                        Cancelar
+                        Cancel
                       </Button>
                       <Button
                         type="submit"
@@ -165,7 +165,7 @@ const EditProjectModal: Component<EditProjectModalProps> = (
                           !name() || platforms().length === 0 || !description()
                         }
                       >
-                        Confirmar edição
+                        Confirm
                       </Button>
                     </div>
                   </form>

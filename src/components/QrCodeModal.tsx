@@ -55,7 +55,7 @@ const QrCodeModal: Component<QrCodeModalProps> = (props: QrCodeModalProps) => {
               >
                 <DialogPanel class="max-w-sm transform overflow-hidden bg-white rounded-2xl w-fit p-6 flex flex-col justify-center items-center">
                   <DialogDescription>
-                    Leia o QRCode para baixar o aplicativo!
+                    Scan the QRCode to download the app!
                   </DialogDescription>
                   <img
                     width={240}

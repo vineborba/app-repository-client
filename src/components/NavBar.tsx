@@ -21,7 +21,7 @@ const NavBar: Component = () => {
           href="/"
           class="text-white text-base capitalize hover:cursor-pointer"
         >
-          open app distribution system
+          App Repository
         </A>
 
         <Show when={user()}>

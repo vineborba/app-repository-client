@@ -58,9 +58,7 @@ const LoggedOutHome: Component = () => {
         width={200}
         height={38}
       />
-      <span class="text-center mt-2">
-        Welcome to Open App Distribution System
-      </span>
+      <span class="text-center mt-2">Welcome to App Repository</span>
       <form onSubmit={handleLoginFormSubmit} id="login-form" class="my-6 w-96">
         <Input
           type="email"

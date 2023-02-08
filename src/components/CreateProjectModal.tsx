@@ -64,7 +64,7 @@ const CreateProjectModal: Component<CreateProjectModalProps> = (props) => {
         onClick={() => setVisible(true)}
       >
         <RiSystemAddLine size={24} />
-        Adicionar projeto
+        Add project
       </Button>
 
       <Transition show={visible()}>
