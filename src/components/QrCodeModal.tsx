@@ -43,7 +43,11 @@ const QrCodeModal: Component<QrCodeModalProps> = (props: QrCodeModalProps) => {
             <div class="fixed inset-0 bg-black bg-opacity-25" />
           </TransitionChild>
 
-          <div class="fixed inset-0 overflow-y-auto">
+          <div
+            class="fixed inset-0 overflow-y-auto cursor-default"
+            role="button"
+            onClick={() => setVisible(false)}
+          >
             <div class="flex min-h-full items-center justify-center p-4 text-center">
               <TransitionChild
                 enter="ease-out duration-300"

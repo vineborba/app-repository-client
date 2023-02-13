@@ -1,10 +1,12 @@
 export interface Artifact {
-  id: string;
+  _id: string;
   filter: string[];
   setIsDownloading: (state: boolean) => void;
   artifacts: {
-    id: string;
-    type: string;
+    _id: {
+      $oid: string;
+    };
+    extension: string;
     createdAt: string;
     branch: string;
     originalFilename: string;

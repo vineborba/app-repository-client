@@ -1,6 +1,8 @@
 import type { Component } from 'solid-js';
 import { RiSystemDownloadCloud2Line } from 'solid-icons/ri';
 
+import { downloadArtifact } from '../api/artifact';
+
 interface DownloadArtifactButtonProps {
   artifactId: string;
   fileName: string;
@@ -10,17 +12,16 @@ interface DownloadArtifactButtonProps {
 const DownloadArtifactButton: Component<DownloadArtifactButtonProps> = (
   props: DownloadArtifactButtonProps,
 ) => {
-  const downloadArtifact = async () => {
+  const startDownloadArtifact = async () => {
     try {
       props.setIsDownloading(true);
-      // TODO? is there a better way? 🤔
-      const url = `/artifacts/${props.artifactId}/download`;
-      const response = await fetch(url);
-      const blob = await response.blob();
+      const blob = await downloadArtifact(props.artifactId);
       const a = document.createElement('a');
       a.href = window.URL.createObjectURL(blob);
       a.download = props.fileName;
       a.click();
+      window.URL.revokeObjectURL(a.href);
+      a.remove();
       props.setIsDownloading(false);
     } catch {
       props.setIsDownloading(false);
@@ -31,7 +32,7 @@ const DownloadArtifactButton: Component<DownloadArtifactButtonProps> = (
     <RiSystemDownloadCloud2Line
       size={24}
       class="ml-4 hover:cursor-pointer"
-      onClick={downloadArtifact}
+      onClick={startDownloadArtifact}
       role="button"
     />
   );

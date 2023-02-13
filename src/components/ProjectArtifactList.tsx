@@ -17,6 +17,7 @@ const ProjectArtifactList: Component<ProjectArtifactListProps> = (
   const [artifacts] = createResource<Artifact[], string>(
     () => props.projectId,
     fetchArtifacts,
+    { initialValue: [] },
   );
 
   return (

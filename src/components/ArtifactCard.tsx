@@ -14,6 +14,7 @@ import {
 import { format } from 'date-fns';
 
 import type { Artifact } from '../schemas/Artifact';
+
 import QrCodeModal from './QrCodeModal';
 import DownloadArtifactButton from './DownloadArtifactButton';
 
@@ -40,7 +41,7 @@ const ArtifactCard: Component<Artifact> = (props: Artifact) => {
               'rounded-lg': !isOpen(),
             }}
           >
-            {props.id}
+            {props._id}
             <RiSystemArrowDownSLine
               class="transition-transform"
               classList={{ 'transform rotate-180': isOpen() }}
@@ -59,11 +60,13 @@ const ArtifactCard: Component<Artifact> = (props: Artifact) => {
             <DisclosurePanel class="bg-teal-50 rounded-lg">
               <For
                 each={props.artifacts.filter((artifact) =>
-                  props.filter.includes(artifactToPlatformType[artifact.type]),
+                  props.filter.includes(
+                    artifactToPlatformType[artifact.extension],
+                  ),
                 )}
               >
                 {(artifact) => {
-                  const platform = artifactToPlatformType[artifact.type];
+                  const platform = artifactToPlatformType[artifact.extension];
                   return (
                     <div class="flex items-center justify-between p-4 border-b last:rounded-b-lg">
                       <div class="flex max-w-fit items-center">
@@ -81,7 +84,7 @@ const ArtifactCard: Component<Artifact> = (props: Artifact) => {
                       <div class="flex items-center">
                         <QrCodeModal qrcode={artifact.qrcode} />
                         <DownloadArtifactButton
-                          artifactId={artifact.id}
+                          artifactId={artifact._id.$oid}
                           fileName={artifact.originalFilename}
                           setIsDownloading={props.setIsDownloading}
                         />
