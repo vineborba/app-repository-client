@@ -1,34 +1,49 @@
-## Usage
+# App Repository — Web
 
-Those templates dependencies are maintained via [pnpm](https://pnpm.io) via `pnpm up -Lri`.
+Web UI for a self-hosted **iOS and Android build distribution** service: browse
+projects, find the latest build of each branch and install it on your phone by
+scanning a QR code.
 
-This is the reason you see a `pnpm-lock.yaml`. That being said, any package manager will work. This file can be safely be removed once you clone a template.
+The API, including the iOS over-the-air install flow, lives in
+[app_repository_server](https://github.com/vineborba/app_repository_server)
+(Rust + Axum + MongoDB).
 
-```bash
-$ npm install # or pnpm install or yarn install
+## Stack
+
+- **SolidJS** with TypeScript and **Vite**
+- **@solidjs/router** with lazy-loaded pages
+- **Tailwind CSS** and **solid-headless** for accessible dialogs and transitions
+- **redaxios** as a lightweight HTTP client, **date-fns**, **solid-icons**
+
+## Features
+
+- Sign-up and login (JWT stored client-side and sent as a bearer token)
+- Project list with favourites, plus create and edit, including a project
+  image (project deletion is in the UI, but the API endpoint was never added)
+- Project page with builds grouped by branch and a platform filter (iOS/Android)
+- For each build: a QR code to install on the device, and direct download in the
+  browser
+
+## Project structure
+
+```
+src/
+  pages/        Home (projects), Project (builds), SignUp
+  components/   project and artifact cards, modals (create/edit/delete, QR code), form controls
+  api/          typed calls per resource on top of a shared client
+  contexts/     current user
+  schemas/      domain types
 ```
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+## Running locally
 
-## Available Scripts
+Requires Node.js, pnpm and a running
+[app_repository_server](https://github.com/vineborba/app_repository_server).
 
-In the project directory, you can run:
+```sh
+pnpm install
+echo "VITE_API_URL=https://localhost:3002" > .env
+pnpm dev
+```
 
-### `npm dev` or `npm start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-
-### `npm run build`
-
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-## Deployment
-
-You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
+Build with `pnpm build`.
